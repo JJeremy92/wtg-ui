@@ -1,0 +1,86 @@
+/// <reference types="jquery" />
+import { Observable, PureComputed } from 'knockout';
+import { SortDirection } from '../constants';
+import { SortColumn } from '../sortService';
+import { Maybe, SortFunc, Value } from '../types';
+import Grid from './Grid';
+import Row from './Row';
+export interface ColumnConfig {
+    readonly colDef: ColumnDefinition;
+    readonly enableResize?: boolean;
+    readonly enableSort?: boolean;
+    readonly index: number;
+    readonly isGroupCol?: boolean;
+    readonly resizeOnDataCallback?: (col: Column) => void;
+    readonly sortCallback?: (col: Column, direction: SortDirection, isMulti: boolean) => void;
+}
+export interface ColumnDefinition {
+    readonly canAggregate?: boolean;
+    readonly cellClass?: string;
+    readonly cellFilter?: (prop: any) => Maybe<Value>;
+    readonly cellTemplate?: string;
+    readonly displayName?: string;
+    readonly field: string;
+    readonly fixed?: boolean;
+    readonly headerCellTemplate?: string;
+    readonly headerClass?: string;
+    readonly maxWidth?: number;
+    readonly minWidth?: number;
+    readonly resizable?: boolean;
+    readonly sortable?: boolean;
+    readonly sortFn?: SortFunc;
+    readonly visible?: boolean;
+    width?: string | number;
+}
+export default class Column implements SortColumn {
+    constructor(config: ColumnConfig, grid: Grid);
+    readonly cellClass: string;
+    readonly cellFilter?: (prop: any) => Maybe<Value>;
+    readonly cellTemplate?: string;
+    readonly colDef: ColumnDefinition;
+    readonly displayName: Observable<string>;
+    readonly field: string;
+    readonly fixed: boolean;
+    readonly fixedClass: string;
+    readonly groupedByClass: PureComputed<string>;
+    readonly groupIndex: Observable<number>;
+    readonly headerCellTemplate: string;
+    readonly headerClass: string;
+    readonly isGroupCol: boolean;
+    readonly isGroupedBy: PureComputed<boolean>;
+    readonly maxWidth: number;
+    readonly minWidth: number;
+    readonly noSortVisible: PureComputed<boolean>;
+    readonly resizable: boolean;
+    readonly showSortButtonDown: PureComputed<boolean>;
+    readonly showSortButtonUp: PureComputed<boolean>;
+    readonly sortable: boolean;
+    readonly sortDirection: Observable<SortDirection>;
+    readonly sortingAlgorithm?: SortFunc;
+    readonly visible: PureComputed<boolean>;
+    index: number;
+    width: number;
+    private readonly _visible;
+    private readonly grid;
+    private readonly resizeOnDataCallback?;
+    private readonly sortCallback?;
+    private clicks;
+    private eventTarget?;
+    private origWidth;
+    private startMousePosition;
+    private timer?;
+    getProperty(row: Row): Maybe<Value>;
+    toggleVisible(val?: boolean): void;
+    sort(data?: any, event?: JQuery.Event): boolean;
+    gripClick(data: any, event: JQuery.Event): void;
+    gripOnMouseDown(event: JQuery.MouseDownEvent): boolean;
+    private onMouseMove;
+    private gripOnMouseUp;
+    private readIsGroupedBy;
+    private readGroupedByClass;
+    private readNoSortVisible;
+    private readShowSortButtonDown;
+    private readShowSortButtonUp;
+    private readVisible;
+    private writeVisible;
+}

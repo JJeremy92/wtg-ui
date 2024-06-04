@@ -1,0 +1,6 @@
+<div class="kgHeaderSortColumn" data-bind="style: { cursor : sortable ? 'pointer' : 'default' }, click: sort, css: { 'kgSorted': !noSortVisible }" draggable="true">
+    <div class="kgHeaderText" data-bind="text: displayName"></div>
+    <div class="kgSortButtonDown" data-bind="visible: showSortButtonDown"></div>
+    <div class="kgSortButtonUp" data-bind="visible: showSortButtonUp"></div>
+    <div data-bind="visible: resizable, click: gripClick, mouseEvents: { mouseDown: gripOnMouseDown.bind($data) }" class="kgHeaderGrip"></div>
+</div>

@@ -1,0 +1,39 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": ["plugin:@typescript-eslint/recommended", "eslint:recommended"],
+    "parserOptions": {
+        "ecmaVersion": 2016,
+        "sourceType": "module"
+    },
+    "env": {
+        "browser": true,
+        "es6": true,
+        "node": true
+    },
+    "rules": {
+        "eqeqeq": ["error", "always", { "null": "ignore" }],
+        "quotes": ["error", "single", { "allowTemplateLiterals": true, "avoidEscape": true }],
+        "@typescript-eslint/indent": "ignore",
+        "@typescript-eslint/no-use-before-define": ["error", { "functions": false }]
+    },
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "rules": {
+                "no-invalid-this": "error",
+                "no-var": "error",
+                "@typescript-eslint/no-explicit-any": "ignore"
+            }
+        },
+        {
+            "files": ["*.test.js", "*.test.ts"],
+            "env": { "jest": true },
+            "rules": {
+                "no-invalid-this": "off",
+                "@typescript-eslint/camelcase": "ignore",
+                "@typescript-eslint/explicit-function-return-type": "ignore",
+                "@typescript-eslint/no-non-null-assertion": "ignore"
+            }
+        }
+    ]
+}

@@ -1,0 +1,116 @@
+<div class="koGridContainer"
+    data-bind="css: { 'ui-widget': jqueryUITheme, 'kgNoSelect' : disableTextSelection, 'koGrid--legacy': legacyMode, 'koGrid--modern': !legacyMode, 'koGrid--unfixed': fixedViewportDimWidth() === 0 }">
+    <div class="kgTopPanel"
+        data-bind="css: { 'ui-widget-header':jqueryUITheme, 'ui-corner-top': jqueryUITheme }, style: topPanelStyle">
+        <div class="kgGroupPanel" data-bind="visible: enableGrouping, style: groupPanelStyle">
+            <div class="kgGroupPanelDescription" data-bind="text: groupPanelText"></div>
+            <ul data-bind="foreach: configGroups" class="kgGroupList">
+                <li class="kgGroupItem">
+                    <div class="kgGroupElement">
+                        <div class="kgGroupName" draggable="true">
+                            <span data-bind="text: displayName"></span>
+                            <span
+                                data-bind="attr: { class: 'kgRemoveGroup ' + $css.removeGroupClass }, click: function(data) { $grid.removeGroup($index()) }">
+                                <span class="kgRemoveGroupText">x</span>
+                            </span>
+                        </div>
+                        <span
+                            data-bind="attr: { class: ' kgGroupArrow ' + $css.groupArrowClass }, visible: $index() < ($grid.configGroups().length - 1)"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="kgHeaderContainer kgFixedHeaderContainer" data-bind="style: fixedHeaderStyle">
+            <div class="kgHeaderScroller kgFixedHeaderScroller"
+                data-bind="style: headerScrollerStyle, kgFixedHeaderRow"></div>
+        </div>
+        <div class="kgHeaderContainer kgNonFixedHeaderContainer" data-bind="style: headerStyle">
+            <div class="kgHeaderScroller kgNonFixedHeaderScroller"
+                data-bind="style: headerScrollerStyle, kgHeaderRow: $data"></div>
+        </div>
+        <div class="kgHeaderButton" data-bind="visible: (showColumnMenu || showFilter), click: toggleShowMenu">
+            <div class="kgHeaderButtonArrow"></div>
+        </div>
+        <div data-bind="visible: showMenu" class="kgColMenu">
+            <div data-bind="visible: showFilter">
+                <input type="text"
+                    data-bind="attr: { placeholder: $resStrings.columnMenuFilter() }, value: filterText, valueUpdate: 'afterkeydown'" />
+            </div>
+            <div data-bind="visible: showColumnMenu">
+                <span class="kgMenuText" data-bind="text: $resStrings.columnMenuText()"></span>
+                <ul class="kgColList" data-bind="foreach: nonGroupColumns">
+                    <li class="kgColListItem">
+                        <label style="position: relative;">
+                            <input type="checkbox" class="kgColListCheckbox" data-bind="checked: visible" />
+                            <span data-bind="text: displayName, click: toggleVisible"></span>
+                            <a data-bind="attr: { 'title': $resStrings.columnMenuGroupBy(), 'class': groupedByClass }, visible: (field != '\u2714'), click: $parent.toggleGroup.bind($parent)"></a>
+                            <span class="kgGroupingNumber"
+                                data-bind="visible: isGroupedBy, text: groupIndex() + 1"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="kgMiddlePanel" data-bind="style: viewportPanelStyle">
+        <div class="kgViewport kgFixedViewport"
+            data-bind="css: { 'ui-widget-content': jqueryUITheme }, style: fixedViewportStyle">
+            <div class="kgCanvas kgFixedCanvas" data-bind="style: canvasStyle">
+                <div data-bind="kgGridForEach: renderedRows" style="position: absolute;">
+                    <div data-bind="style: { 'top': offsetTop }, click: toggleSelected, css: { 'kgRow--selected': isSelected, 'kgRow--even': isEven, 'kgRow--odd': isOdd, 'ui-state-default': $parent.jqueryUITheme && isOdd, 'ui-state-active': $parent.jqueryUITheme && isEven, 'kgRow--hovered': $grid.isHoveredEntity(entity) }, kgFixedRow"
+                        class="kgRow kgFixedRow"></div>
+                </div>
+            </div>
+        </div>
+        <div class="kgViewport kgNonFixedViewport"
+            data-bind="css: {'ui-widget-content': jqueryUITheme}, style: viewportStyle">
+            <div class="kgCanvas kgNonFixedCanvas" data-bind="style: canvasStyle">
+                <div data-bind="kgGridForEach: renderedRows" style="position: absolute;">
+                    <div data-bind="style: { 'top': offsetTop }, click: toggleSelected, css: { 'kgRow--selected': isSelected, 'kgRow--even': isEven , 'kgRow--odd': isOdd, 'ui-state-default': $parent.jqueryUITheme && isOdd, 'ui-state-active':$parent.jqueryUITheme && isEven, 'kgRow--hovered': $grid.isHoveredEntity(entity) }, kgRow"
+                        class="kgRow kgNonFixedRow"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="kgFooterPanel"
+        data-bind="css: { 'ui-widget-content': jqueryUITheme, 'ui-corner-bottom': jqueryUITheme }, style: footerStyle">
+        <div class="kgTotalSelectContainer" data-bind="visible: footerVisible">
+            <div class="kgFooterTotalItems" data-bind="css: { 'kgFooterTotalItems--no-multi-select': !multiSelect }">
+                <span class="kgLabel" data-bind="text: $resStrings.footerTotalItems() + ' ' + maxRows()"></span>
+                <span class="kgLabel" data-bind="text: '(' + $resStrings.footerShownItems() + ' ' + totalFilteredItemsLength() + ')', visible: filterText().length > 0"></span>
+            </div>
+            <div class="kgFooterSelectedItems" data-bind="visible: multiSelect">
+                <span class="kgLabel" data-bind="text: $resStrings.footerSelectedItems() + ' ' + selectedItemCount()"></span>
+            </div>
+        </div>
+        <div class="kgPagerContainer" style="float: right; margin-top: 10px;"
+            data-bind="visible: footerVisible && enablePaging">
+            <div style="float: left; margin-right: 10px;" class="kgRowCountPicker">
+                <span style="float: left; margin-top: 3px;" class="kgLabel" data-bind="text: $resStrings.footerPageSize()"></span>
+                <select style="float: left; height: 27px; width: 100px"
+                    data-bind="value: pagingOptions.pageSize, options: pagingOptions.pageSizes"></select>
+            </div>
+            <div style="float:left; margin-right: 10px; line-height:25px; min-width: 135px;" class="kgPagerControl">
+                <button class="kgPagerButton" data-bind="attr: { title: $resStrings.footerFirstPage() }, click: pageToFirst, disable: cantPageBackward()">
+                    <div class="kgPagerFirstTriangle">
+                        <div class="kgPagerFirstBar"></div>
+                    </div>
+                </button>
+                <button class="kgPagerButton" data-bind="attr: { title: $resStrings.footerPreviousPage() }, click: pageBackward, disable: cantPageBackward()">
+                    <div class="kgPagerFirstTriangle kgPagerPrevTriangle"></div>
+                </button>
+                <input class="kgPagerCurrent" type="number"
+                    style="width: 50px; height: 24px; margin-top: 1px; padding: 0px 4px;"
+                    data-bind="value: pagingOptions.currentPage, valueUpdate: 'afterkeydown'" />
+                <button class="kgPagerButton" data-bind="attr: { title: $resStrings.footerNextPage() }, click: pageForward, disable: cantPageForward()">
+                    <div class="kgPagerLastTriangle kgPagerNextTriangle"></div>
+                </button>
+                <button class="kgPagerButton" data-bind="attr: { title: $resStrings.footerLastPage() }, click: pageToLast, disable: cantPageForward()">
+                    <div class="kgPagerLastTriangle">
+                        <div class="kgPagerLastBar"></div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

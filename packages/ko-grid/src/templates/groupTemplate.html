@@ -1,0 +1,14 @@
+<div class="kgGroupContainer">
+    <div data-bind="style: { 'width': offsetLeft }, visible: depth" class="kgGroupSpacer"></div>
+    <div data-bind="style: { 'left': offsetLeft }" class="kgGroup">
+        <div data-bind="attr: { class: groupClass }, click: toggleExpand, clickBubble: false"></div>
+        <span class="kgGroupText" data-bind="text: $data.label"></span>
+        <div class="kgGroupAggregateContainer" data-bind="foreach: $data.aggregateResults">
+            <div class="kgGroupAggregateResult">
+                <span data-bind="text: field"></span>
+                <span data-bind="text: operation"></span>
+                <span data-bind="text: result"></span>
+            </div>
+        </div>
+    </div>
+</div>

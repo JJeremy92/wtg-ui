@@ -1,0 +1,35 @@
+{
+    "name": "ko-grid",
+    "version": "2.1.1",
+    "description": "WiseTech Global fork of KoGrid",
+    "main": "dist/ko-grid.js",
+    "types": "dist/types/index.d.ts",
+    "scripts": {
+        "build": "tsc && rollup -c && npm run type:gen",
+        "lint": "eslint src/**/*.ts",
+        "test": "jest",
+        "test:coverage": "jest --coverage",
+        "test:watch": "jest --watchAll",
+        "type:check": "tsc",
+        "type:gen": "tsc --declaration --emitDeclarationOnly --noEmit false --declarationDir dist/types --project tsconfig.prod.json"
+    },
+    "author": "WiseTech Global",
+    "license": "UNLICENSED",
+    "private": true,
+    "devDependencies": {
+        "bowser": "^1.9.4",
+        "eslint": "^5.16.0",
+        "jest": "^24.9.0",
+        "jquery": "^3.5.0",
+        "jquery-ui-dist": "~1.12.1",
+        "knockout": "^3.5.1",
+        "rollup": "^1.32.1",
+        "typescript": "^3.9.7"
+    },
+    "peerDependencies": {
+        "bowser": "^1.9.4",
+        "jquery": "^3.5.0",
+        "jquery-ui-dist": "~1.12.1",
+        "knockout": "^3.5.1"
+    }
+}

@@ -1,0 +1,42 @@
+{
+    "name": "wtg-ui",
+    "version": "1.0.0",
+    "description": "WiseTech Global UI components for the web",
+    "scripts": {
+        "build": "npm run build --workspaces",
+        "lint": "npm run lint --workspaces",
+        "test": "npm run jest --workspaces",
+        "typecheck": "npm run tsc --workspaces"
+    },
+    "author": "WiseTech Global",
+    "license": "UNLICENSED",
+    "private": true,
+    "devDependencies": {
+        "@babel/core": "^7.10.2",
+        "@babel/plugin-proposal-optional-chaining": "^7.10.1",
+        "@babel/preset-env": "^7.10.2",
+        "@babel/preset-typescript": "^7.10.1",
+        "@types/babel__traverse": "7.0.15",
+        "@types/jest": "^24.9.0",
+        "@types/jquery": "3.5.4",
+        "@types/jqueryui": "1.12.13",
+        "@typescript-eslint/eslint-plugin": "^1.9.0",
+        "@typescript-eslint/parser": "^1.9.0",
+        "bowser": "^1.9.4",
+        "eslint": "^5.16.0",
+        "fast-async": "^7.0.6",
+        "html-loader-jest": "^0.2.1",
+        "jest": "^24.9.0",
+        "jquery": "^3.5.0",
+        "knockout": "^3.5.1",
+        "rollup": "~1.12.4",
+        "rollup-plugin-babel": "^4.3.2",
+        "rollup-plugin-node-resolve": "^5.0.0",
+        "rollup-plugin-string": "^3.0.0",
+        "ts-mockery": "^1.2.0",
+        "typescript": "^3.7.4"
+    },
+    "workspaces": [
+        "./packages/*"
+    ]
+}
